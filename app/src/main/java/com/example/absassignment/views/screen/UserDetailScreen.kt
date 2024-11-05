@@ -1,4 +1,4 @@
-package com.example.absassignment.ui.components
+package com.example.absassignment.views.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

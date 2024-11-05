@@ -1,10 +1,10 @@
-package com.example.absassignment.ui.screens
+package com.example.absassignment
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.absassignment.ui.navigation.NavHostComponent
-import com.example.absassignment.ui.theme.ABSAssignmentTheme
+import com.example.absassignment.views.navigation.NavHostComponent
+import com.example.absassignment.views.theme.ABSAssignmentTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

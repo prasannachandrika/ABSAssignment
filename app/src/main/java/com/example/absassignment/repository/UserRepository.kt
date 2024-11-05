@@ -1,8 +1,8 @@
-package com.example.absassignment.data.repository
+package com.example.absassignment.repository
 
 import android.util.Log
 import com.example.absassignment.data.model.User
-import com.example.absassignment.data.network.ApiService
+import com.example.absassignment.network.ApiService
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val apiService: ApiService) {

@@ -1,7 +1,7 @@
 package com.example.absassignment.di
 
-import com.example.absassignment.data.network.ApiService
-import com.example.absassignment.data.repository.UserRepository
+import com.example.absassignment.network.ApiService
+import com.example.absassignment.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

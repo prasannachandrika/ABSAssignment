@@ -1,5 +1,6 @@
-package com.example.absassignment.data.network
+package com.example.absassignment.di
 
+import com.example.absassignment.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

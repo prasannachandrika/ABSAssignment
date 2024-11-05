@@ -1,4 +1,4 @@
-package com.example.absassignment.data.network
+package com.example.absassignment.network
 
 import com.example.absassignment.data.model.UserResponse
 import retrofit2.Response
