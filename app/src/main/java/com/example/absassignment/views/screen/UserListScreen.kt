@@ -46,16 +46,15 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.absassignment.R
 import com.example.absassignment.data.model.User
+import com.example.absassignment.viewmodel.ResultState
 import com.example.absassignment.viewmodel.UserViewModel
 import com.google.gson.Gson
-
 @Composable
 fun UserListScreen(navController: NavController, viewModel: UserViewModel = hiltViewModel()) {
-    val users by viewModel.users.observeAsState(emptyList())
-    val error by viewModel.error.observeAsState("")
+    val userState by viewModel.userState.observeAsState(ResultState.Loading)
     val (userCount, setUserCount) = remember { mutableStateOf("") }
+
     Column {
-        //Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = userCount,
             onValueChange = { setUserCount(it) },
@@ -67,9 +66,9 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
         )
         Button(
             onClick = {
-                val count = userCount.toIntOrNull() ?: 0 // Convert to Int, default to 0 if invalid
+                val count = userCount.toIntOrNull() ?: 0
                 if (count > 0) {
-                    viewModel.fetchUsers(count) // Fetch the specified number of users
+                    viewModel.fetchUsers(count)
                 }
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -78,19 +77,47 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
         }
 
         LaunchedEffect(Unit) {
-           viewModel.fetchUsers(50)
+            viewModel.fetchUsers(50)
         }
 
-        LazyColumn {
-            items(users) { user ->
-                UserCard(navController,user)
-
-
+        when (val state = userState) {
+            is ResultState.Loading -> {
+                // Display loading indicator
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    androidx.compose.material3.CircularProgressIndicator()
+                }
+            }
+            is ResultState.Success -> {
+                // Display user list
+                LazyColumn {
+                    items(state.data) { user ->
+                        UserCard(navController, user)
+                    }
+                }
+            }
+            is ResultState.Error -> {
+                // Display error message
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = state.message,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
 }
-
 @Composable
 fun UserCard(navController: NavController,user: User) {
     Card(
