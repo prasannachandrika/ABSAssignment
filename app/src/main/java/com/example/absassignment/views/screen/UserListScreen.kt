@@ -46,6 +46,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.absassignment.R
 import com.example.absassignment.data.model.User
+import com.example.absassignment.utils.NetworkConstants
 import com.example.absassignment.viewmodel.ResultState
 import com.example.absassignment.viewmodel.UserViewModel
 import com.google.gson.Gson
@@ -77,7 +78,7 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
         }
 
         LaunchedEffect(Unit) {
-            viewModel.fetchUsers(50)
+            viewModel.fetchUsers(NetworkConstants.DEFAULT_USER_COUNT)
         }
 
         when (val state = userState) {

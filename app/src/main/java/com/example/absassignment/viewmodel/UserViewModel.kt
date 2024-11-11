@@ -32,6 +32,7 @@ class UserViewModel @Inject constructor(private val repository: UserRepository) 
             }
         }
     }
+
 }
 sealed class ResultState<out T> {
     object Loading : ResultState<Nothing>()

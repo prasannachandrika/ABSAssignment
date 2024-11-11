@@ -48,13 +48,7 @@ fun UserDetailScreen(userInfo: String?) {
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-        if (user != null) {
-            Text(
-                text = user.email,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.align(Alignment.CenterHorizontally) // Center text horizontally
-            )
-        }
+
         // User Contact Info
         Spacer(modifier = Modifier.height(25.dp))
         Text(
@@ -68,8 +62,8 @@ fun UserDetailScreen(userInfo: String?) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = "Email:", style = MaterialTheme.typography.bodyMedium)
-                Text(text = "Phone:", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "Email:", style = MaterialTheme.typography.titleMedium)
+                Text(text = "Phone:", style = MaterialTheme.typography.titleMedium)
                 // Add other labels here as needed
             }
 
