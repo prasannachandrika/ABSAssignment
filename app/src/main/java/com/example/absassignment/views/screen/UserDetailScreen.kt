@@ -34,14 +34,8 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun UserDetailScreen(navController: NavController, userInfo: String?) {
 
+    Column {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-       // horizontalAlignment = Alignment.CenterHorizontally
-    ) {
         IconButton(
             onClick = { navController.popBackStack() },
             modifier = Modifier
@@ -53,75 +47,89 @@ fun UserDetailScreen(navController: NavController, userInfo: String?) {
                 contentDescription = "Back"
             )
         }
-        val decodedJson = userInfo?.let { URLDecoder.decode(it, StandardCharsets.UTF_8.toString()) }
-        val user = decodedJson?.let { Gson().fromJson(it, User::class.java) }
-        Box(
-            modifier = Modifier
-                .size(250.dp) // Outer box size, slightly larger to accommodate the border
-                .clip(CircleShape) // Apply circular clipping to the border
-                .border(3.dp, Color.Blue, CircleShape)
-                .align(Alignment.CenterHorizontally)// Border thickness and color
-        ) {
-            AsyncImage(
-                model = user?.picture?.large,
-                contentDescription = "User Profile Picture",
-                modifier = Modifier.size(250.dp).clip(CircleShape).aspectRatio(1f),
 
-                placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                error = painterResource(id = R.drawable.ic_launcher_background),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+        ) {
+
+            val decodedJson =
+                userInfo?.let { URLDecoder.decode(it, StandardCharsets.UTF_8.toString()) }
+            val user = decodedJson?.let { Gson().fromJson(it, User::class.java) }
+            Box(
+                modifier = Modifier
+                    .size(250.dp) // Outer box size, slightly larger to accommodate the border
+                    .clip(CircleShape) // Apply circular clipping to the border
+                    .border(3.dp, Color.Black, CircleShape)
+                    .align(Alignment.CenterHorizontally)// Border thickness and color
+            ) {
+                AsyncImage(
+                    model = user?.picture?.large,
+                    contentDescription = "User Profile Picture",
+                    modifier = Modifier.size(250.dp).clip(CircleShape).aspectRatio(1f),
+
+                    placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                    error = painterResource(id = R.drawable.ic_launcher_background),
+                )
+
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Contact Information",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(bottom = 8.dp),
+                color = Color.Blue
             )
 
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // User Contact Info
-        Spacer(modifier = Modifier.height(25.dp))
-        Text(
-            text = "Contact Information",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = "Email:", style = MaterialTheme.typography.titleMedium)
-                Text(text = "Phone:", style = MaterialTheme.typography.titleMedium)
-                // Add other labels here as needed
-            }
-
-            Column(
-                modifier = Modifier.weight(2f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (user != null) {
-                    Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
-                    Text(text = user.phone, style = MaterialTheme.typography.bodyMedium)
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(text = "Email", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Phone", style = MaterialTheme.typography.titleMedium)
+                    // Add other labels here as needed
                 }
-                // Add other values here as needed
-            }
-        }
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = "Name : ", style = MaterialTheme.typography.titleMedium)
-                Text(text = "Gender : ", style = MaterialTheme.typography.titleMedium)
-                Text(text = "Age : ", style = MaterialTheme.typography.titleMedium)
-                // Add other labels here as needed
-            }
 
-            Column(
-                modifier = Modifier.weight(2f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (user != null) {
-                    Text(text = "${user.name.first} ${user.name.last}", style = MaterialTheme.typography.bodyMedium)
-                    Text(text = user.gender, style = MaterialTheme.typography.bodyMedium)
-                    Text(text = "${user.dob.age} years old", style = MaterialTheme.typography.bodyMedium)
+                Column(
+                    modifier = Modifier.weight(2f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    if (user != null) {
+                        Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
+                        Text(text = user.phone, style = MaterialTheme.typography.bodyMedium)
+                    }
+                    // Add other values here as needed
+                }
+            }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(text = "Name", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Gender", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Age", style = MaterialTheme.typography.titleMedium)
+                    // Add other labels here as needed
+                }
+
+                Column(
+                    modifier = Modifier.weight(2f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    if (user != null) {
+                        Text(
+                            text = "${user.name.first} ${user.name.last}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(text = user.gender, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            text = "${user.dob.age} years old",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
             }
         }
