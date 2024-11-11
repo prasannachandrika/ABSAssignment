@@ -77,9 +77,9 @@ fun UserDetailScreen(navController: NavController, userInfo: String?) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Contact Information",
+                text = "User Information",
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp),
+                modifier = Modifier.padding(bottom = 16.dp),
                 color = Color.Blue
             )
 
@@ -90,25 +90,6 @@ fun UserDetailScreen(navController: NavController, userInfo: String?) {
                 ) {
                     Text(text = "Email", style = MaterialTheme.typography.titleMedium)
                     Text(text = "Phone", style = MaterialTheme.typography.titleMedium)
-                    // Add other labels here as needed
-                }
-
-                Column(
-                    modifier = Modifier.weight(2f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    if (user != null) {
-                        Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
-                        Text(text = user.phone, style = MaterialTheme.typography.bodyMedium)
-                    }
-                    // Add other values here as needed
-                }
-            }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
                     Text(text = "Name", style = MaterialTheme.typography.titleMedium)
                     Text(text = "Gender", style = MaterialTheme.typography.titleMedium)
                     Text(text = "Age", style = MaterialTheme.typography.titleMedium)
@@ -120,6 +101,8 @@ fun UserDetailScreen(navController: NavController, userInfo: String?) {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     if (user != null) {
+                        Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
+                        Text(text = user.phone, style = MaterialTheme.typography.bodyMedium)
                         Text(
                             text = "${user.name.first} ${user.name.last}",
                             style = MaterialTheme.typography.bodyMedium
@@ -130,8 +113,10 @@ fun UserDetailScreen(navController: NavController, userInfo: String?) {
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
+                    // Add other values here as needed
                 }
             }
+
         }
     }
 }

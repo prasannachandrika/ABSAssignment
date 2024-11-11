@@ -64,11 +64,11 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
                 // Display loading indicator
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize().size(50.dp)
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    androidx.compose.material3.CircularProgressIndicator()
+                    androidx.compose.material3.CircularProgressIndicator(modifier = Modifier.size(60.dp))
                 }
             }
             is ResultState.Success -> {
