@@ -1,6 +1,7 @@
 package com.example.absassignment.di
 
 import com.example.absassignment.network.ApiService
+import com.example.absassignment.utils.NetworkConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "https://randomuser.me/"
+    private const val BASE_URL = NetworkConstants.BASE_URL
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
