@@ -76,7 +76,7 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
         ) {
             Text("Fetch Users")
         }
-
+        Spacer(modifier = Modifier.height(10.dp))
         LaunchedEffect(Unit) {
             viewModel.fetchUsers(NetworkConstants.DEFAULT_USER_COUNT)
         }
