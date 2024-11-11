@@ -147,13 +147,13 @@ fun UserCard(navController: NavController,user: User) {
                 modifier = Modifier
                     .size(64.dp) // Outer box size, slightly larger to accommodate the border
                     .clip(CircleShape) // Apply circular clipping to the border
-                    .border(2.dp, Color.Green, CircleShape) // Border thickness and color
+                    .border(2.dp, Color.Blue, CircleShape) // Border thickness and color
             ) {
                 AsyncImage(
                     model = user.picture.thumbnail,
                     contentDescription = "User Profile Picture",
                     modifier = Modifier
-                        .size(60.dp) // Size of the image itself
+                        .size(64.dp) // Size of the image itself
                         .clip(CircleShape),
                     placeholder = painterResource(id = R.drawable.ic_launcher_background),
                     error = painterResource(id = R.drawable.ic_launcher_background),

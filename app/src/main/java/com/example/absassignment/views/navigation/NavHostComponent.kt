@@ -19,7 +19,7 @@ fun NavHostComponent() {
             //val userId = backStackEntry.arguments?.getString("userId")
             val userJson = backStackEntry.arguments?.getString("userJson")
             if (userJson != null) {
-                UserDetailScreen(userJson)
+                UserDetailScreen(navController,userJson)
             }
         }
     }

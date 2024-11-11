@@ -1,5 +1,7 @@
 package com.example.absassignment.views.screen
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,14 +12,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.absassignment.R
 import com.example.absassignment.data.model.User
@@ -26,7 +32,7 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 @Composable
-fun UserDetailScreen(userInfo: String?) {
+fun UserDetailScreen(navController: NavController, userInfo: String?) {
 
 
     Column(
@@ -36,17 +42,36 @@ fun UserDetailScreen(userInfo: String?) {
         verticalArrangement = Arrangement.Top,
        // horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .align(Alignment.Start) // Align the button to the start (left) of the screen
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_arrow_back_24), // Replace with your back arrow icon
+                contentDescription = "Back"
+            )
+        }
         val decodedJson = userInfo?.let { URLDecoder.decode(it, StandardCharsets.UTF_8.toString()) }
         val user = decodedJson?.let { Gson().fromJson(it, User::class.java) }
+        Box(
+            modifier = Modifier
+                .size(250.dp) // Outer box size, slightly larger to accommodate the border
+                .clip(CircleShape) // Apply circular clipping to the border
+                .border(3.dp, Color.Blue, CircleShape)
+                .align(Alignment.CenterHorizontally)// Border thickness and color
+        ) {
+            AsyncImage(
+                model = user?.picture?.large,
+                contentDescription = "User Profile Picture",
+                modifier = Modifier.size(250.dp).clip(CircleShape).aspectRatio(1f),
 
-        AsyncImage(
-            model = user?.picture?.large,
-            contentDescription = "User Profile Picture",
-            modifier = Modifier.size(250.dp).clip(CircleShape).aspectRatio(1f).align(Alignment.CenterHorizontally),
-            placeholder = painterResource(id = R.drawable.ic_launcher_background),
-            error = painterResource(id = R.drawable.ic_launcher_background),
-        )
+                placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                error = painterResource(id = R.drawable.ic_launcher_background),
+            )
 
+        }
         Spacer(modifier = Modifier.height(8.dp))
 
         // User Contact Info
