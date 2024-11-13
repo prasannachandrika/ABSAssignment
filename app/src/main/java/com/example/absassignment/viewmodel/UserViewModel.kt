@@ -8,31 +8,40 @@ import androidx.lifecycle.viewModelScope
 import com.example.absassignment.data.model.User
 import com.example.absassignment.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
 
-    private val _userState = MutableLiveData<ResultState<List<User>>>()
-    val userState: LiveData<ResultState<List<User>>> get() = _userState
+    private val _userState = MutableStateFlow<ResultState<List<User>>>(ResultState.Loading)
+    val userState: StateFlow<ResultState<List<User>>> get() = _userState
 
     fun fetchUsers(number: Int) {
-        _userState.value = ResultState.Loading // Set state to loading
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val fetchedUsers = repository.getUsers(number)
-                if (fetchedUsers != null) {
-                    _userState.value = ResultState.Success(fetchedUsers) // Set state to success
-                } else {
-                    _userState.value = ResultState.Error("Failed to fetch users. Please try again.") // Set state to error
+                withContext(Dispatchers.Main) {
+                    _userState.value = if (fetchedUsers != null) {
+                        ResultState.Success(fetchedUsers) // Set state to success
+                    } else {
+                        ResultState.Error("Failed to fetch users. Please try again.") // Set state to error
+                    }
                 }
             } catch (e: Exception) {
-                _userState.value = ResultState.Error("An error occurred: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    _userState.value = ResultState.Error("An error occurred: ${e.message}")
+                    Log.e("UserViewModel", "Error fetching users", e) // Log the error
+                }
             }
         }
     }
 }
+
 sealed class ResultState<out T> {
     object Loading : ResultState<Nothing>()
     data class Success<out T>(val data: T) : ResultState<T>()

@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
@@ -41,7 +42,7 @@ import kotlin.random.Random
 
 @Composable
 fun UserListScreen(navController: NavController, viewModel: UserViewModel = hiltViewModel()) {
-    val userState by viewModel.userState.observeAsState(ResultState.Loading)
+    val userState by viewModel.userState.collectAsState(ResultState.Loading)
 
     Column(
         modifier = Modifier
