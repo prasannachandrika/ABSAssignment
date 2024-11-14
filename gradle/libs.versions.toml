@@ -24,6 +24,7 @@ kotlinPlugin = "1.8.10"
 coreTesting = "2.2.0"
 mockitoKotlin = "5.4.0"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }

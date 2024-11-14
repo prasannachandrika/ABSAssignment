@@ -89,7 +89,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
