@@ -1,6 +1,7 @@
 package com.example.absassignment.di
 
-import com.example.absassignment.network.ApiService
+
+import com.example.absassignment.data.remote.ApiService
 import com.example.absassignment.utils.NetworkConstants
 import dagger.Module
 import dagger.Provides
@@ -45,9 +46,6 @@ object NetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .build()
     }
-
-
-
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {

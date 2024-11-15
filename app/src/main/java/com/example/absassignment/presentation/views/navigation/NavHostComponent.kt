@@ -1,11 +1,11 @@
-package com.example.absassignment.views.navigation
+package com.example.absassignment.presentation.views.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.absassignment.views.screen.UserDetailScreen
-import com.example.absassignment.views.screen.UserListScreen
+import com.example.absassignment.presentation.views.screens.UserDetailScreen
+import com.example.absassignment.presentation.views.screens.UserListScreen
 
 @Composable
 fun NavHostComponent() {

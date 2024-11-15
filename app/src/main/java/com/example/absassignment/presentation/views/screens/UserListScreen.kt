@@ -1,4 +1,4 @@
-package com.example.absassignment.views.screen
+package com.example.absassignment.presentation.views.screens
 
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -7,9 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -19,10 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,11 +40,10 @@ import com.example.absassignment.utils.NetworkConstants
 import com.example.absassignment.viewmodel.ResultState
 import com.example.absassignment.viewmodel.UserViewModel
 import com.google.gson.Gson
-import kotlin.random.Random
+
 @Composable
 fun UserListScreen(navController: NavController, viewModel: UserViewModel = hiltViewModel()) {
-    val userState by viewModel.userState.collectAsState(ResultState.Loading)
-    var isLoadingMore by remember { mutableStateOf(false) }
+    val userState by viewModel.userState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -60,12 +58,15 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
             modifier = Modifier.padding(bottom = 8.dp, start = 8.dp)
         )
 
-        // Initialize fetch of users
+        // Initialize fetch of users on the first composition
         LaunchedEffect(Unit) {
-            viewModel.fetchUsers(NetworkConstants.DEFAULT_USER_COUNT)
+            // Only load if we are still in a loading state or if data hasn't been loaded yet
+            if (userState is ResultState.Loading) {
+                viewModel.loadMoreUsers()
+            }
         }
 
-        when (val state = userState) {
+        when (userState) {
             is ResultState.Loading -> {
                 // Display loading indicator
                 Box(
@@ -75,7 +76,7 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    androidx.compose.material3.CircularProgressIndicator(modifier = Modifier.size(60.dp))
+                    CircularProgressIndicator(modifier = Modifier.size(60.dp))
                 }
             }
             is ResultState.Success -> {
@@ -83,29 +84,11 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     content = {
-                        items(state.data) { user ->
+                        items((userState as ResultState.Success).data) { user ->
                             UserCard(navController, user)
-                        }
-
-                        // Load more indicator when scrolling near the end
-                        item {
-                            if (isLoadingMore) {
-                                Box(modifier = Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) {
-                                    CircularProgressIndicator()
-                                }
-                            }
                         }
                     }
                 )
-
-                // Trigger load more users when nearing the end of the list
-                if (!isLoadingMore && state.data.isNotEmpty()) {
-                    LaunchedEffect(state.data.size) {
-                        isLoadingMore = true
-                        viewModel.loadMoreUsers()
-                        isLoadingMore = false // Reset loading state after fetching
-                    }
-                }
             }
             is ResultState.Error -> {
                 // Display error message
@@ -116,7 +99,22 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = state.message,
+                        text = (userState as ResultState.Error).message,
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            else -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Unexpected state",
                         color = Color.Red,
                         fontWeight = FontWeight.Bold
                     )
@@ -125,6 +123,8 @@ fun UserListScreen(navController: NavController, viewModel: UserViewModel = hilt
         }
     }
 }
+
+
 @Composable
 fun UserCard(navController: NavController, user: User) {
 

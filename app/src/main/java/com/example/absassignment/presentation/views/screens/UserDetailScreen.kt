@@ -1,4 +1,4 @@
-package com.example.absassignment.views.screen
+package com.example.absassignment.presentation.views.screens
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
