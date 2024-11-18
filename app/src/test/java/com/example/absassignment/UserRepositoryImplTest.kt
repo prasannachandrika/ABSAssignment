@@ -1,12 +1,12 @@
 package com.example.absassignment.repository
 
-import com.example.absassignment.data.model.Dob
-import com.example.absassignment.data.model.Location
-import com.example.absassignment.data.model.Login
-import com.example.absassignment.data.model.Name
-import com.example.absassignment.data.model.Picture
-import com.example.absassignment.data.model.Street
-import com.example.absassignment.data.model.User
+import com.example.absassignment.data.data.Dob
+import com.example.absassignment.data.data.Location
+import com.example.absassignment.data.data.Login
+import com.example.absassignment.data.data.Name
+import com.example.absassignment.data.data.Picture
+import com.example.absassignment.data.data.Street
+import com.example.absassignment.data.data.User
 import com.example.absassignment.data.model.UserResponse
 import com.example.absassignment.data.remote.ApiService
 import com.example.absassignment.domainn.UserRepository

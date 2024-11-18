@@ -1,8 +1,13 @@
 package com.example.absassignment.domain.usecase
 
-import com.example.absassignment.data.model.*
+import com.example.absassignment.data.data.Dob
+import com.example.absassignment.data.data.Location
+import com.example.absassignment.data.data.Login
+import com.example.absassignment.data.data.Name
+import com.example.absassignment.data.data.Picture
+import com.example.absassignment.data.data.Street
+import com.example.absassignment.data.data.User
 import com.example.absassignment.domainn.FetchUsersUseCase
-import com.example.absassignment.domainn.UserRepository
 
 import com.example.absassignment.repository.UserRepositoryImpl
 import com.example.absassignment.viewmodel.ResultState

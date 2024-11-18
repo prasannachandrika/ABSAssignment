@@ -1,6 +1,6 @@
 package com.example.absassignment.domainn
 
-import com.example.absassignment.data.model.User
+import com.example.absassignment.data.data.User
 import com.example.absassignment.repository.UserRepositoryImpl
 
 import com.example.absassignment.viewmodel.ResultState

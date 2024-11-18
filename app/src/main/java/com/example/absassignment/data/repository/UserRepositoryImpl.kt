@@ -1,7 +1,6 @@
 package com.example.absassignment.repository
 
-import android.util.Log
-import com.example.absassignment.data.model.User
+import com.example.absassignment.data.data.User
 import com.example.absassignment.data.remote.ApiService
 import com.example.absassignment.domainn.UserRepository
 import javax.inject.Inject
