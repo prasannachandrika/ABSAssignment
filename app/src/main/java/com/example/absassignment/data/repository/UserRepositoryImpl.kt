@@ -3,17 +3,23 @@ package com.example.absassignment.repository
 import android.util.Log
 import com.example.absassignment.data.model.User
 import com.example.absassignment.data.remote.ApiService
+import com.example.absassignment.domainn.UserRepository
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val apiService: ApiService) {
-    suspend fun getUsers(number: Int): List<User>? {
-        Log.d("repository response1", "Fetched users:")
+// Data Layer - UserRepository Implementation
+class UserRepositoryImpl @Inject constructor(
+    private val apiService: ApiService
+) : UserRepository {
+
+    override suspend fun getUsers(number: Int): List<User>? {
+        Log.d("repository response1", "Fetching users:")
         return try {
             val response = apiService.getRandomUsers(number)
             Log.d("repository response", "Fetched users: ${response.body()}")
             if (response.isSuccessful) {
                 response.body()?.results
             } else {
+                Log.e("UserRepository", "Response not successful: ${response.errorBody()?.string()}")
                 null
             }
         } catch (e: Exception) {

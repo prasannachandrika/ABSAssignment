@@ -2,7 +2,8 @@ package com.example.absassignment.di
 
 import com.example.absassignment.domainn.FetchUsersUseCase
 import com.example.absassignment.data.remote.ApiService
-import com.example.absassignment.repository.UserRepository
+import com.example.absassignment.domainn.UserRepository
+import com.example.absassignment.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,10 +17,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideUserRepository(apiService: ApiService): UserRepository {
-        return UserRepository(apiService)
+        return UserRepositoryImpl(apiService)
     }
     @Provides
-    fun provideFetchUsersUseCase(userRepository: UserRepository): FetchUsersUseCase {
+    fun provideFetchUsersUseCase(userRepository: UserRepositoryImpl ): FetchUsersUseCase {
         return FetchUsersUseCase(userRepository)
     }
 }

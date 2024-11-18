@@ -2,7 +2,9 @@ package com.example.absassignment.domain.usecase
 
 import com.example.absassignment.data.model.*
 import com.example.absassignment.domainn.FetchUsersUseCase
-import com.example.absassignment.repository.UserRepository
+import com.example.absassignment.domainn.UserRepository
+
+import com.example.absassignment.repository.UserRepositoryImpl
 import com.example.absassignment.viewmodel.ResultState
 import io.mockk.coEvery // For setting up mock behavior for suspend functions
 import io.mockk.mockk // For creating mocks
@@ -16,7 +18,7 @@ import org.junit.Assert.*
 class FetchUsersUseCaseTest {
 
     private lateinit var fetchUsersUseCase: FetchUsersUseCase
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepositoryImpl: UserRepositoryImpl
 
     // Sample user response
     private val mockUsers = listOf(
@@ -34,8 +36,8 @@ class FetchUsersUseCaseTest {
 
     @Before
     fun setUp() {
-        userRepository = mockk() // Create a mock instance of UserRepository
-        fetchUsersUseCase = FetchUsersUseCase(userRepository)
+        userRepositoryImpl = mockk() // Create a mock instance of UserRepository
+        fetchUsersUseCase = FetchUsersUseCase(userRepositoryImpl)
     }
 
     @Test
@@ -56,7 +58,7 @@ class FetchUsersUseCaseTest {
     fun `invoke should emit Success state with users`() = runBlocking {
         // Arrange
         val numberOfRecords = 10
-        coEvery { userRepository.getUsers(numberOfRecords) } returns mockUsers
+        coEvery { userRepositoryImpl.getUsers(numberOfRecords) } returns mockUsers
 
         // Act
         val flow = fetchUsersUseCase(numberOfRecords)
@@ -89,7 +91,7 @@ class FetchUsersUseCaseTest {
         // Arrange
         val numberOfRecords = 10
         val exceptionMessage = "Network error"
-        coEvery { userRepository.getUsers(numberOfRecords) } throws RuntimeException(exceptionMessage)
+        coEvery { userRepositoryImpl.getUsers(numberOfRecords) } throws RuntimeException(exceptionMessage)
 
         // Act
         val flow = fetchUsersUseCase(numberOfRecords)

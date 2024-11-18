@@ -1,13 +1,14 @@
 package com.example.absassignment.domainn
 
 import com.example.absassignment.data.model.User
-import com.example.absassignment.repository.UserRepository
+import com.example.absassignment.repository.UserRepositoryImpl
+
 import com.example.absassignment.viewmodel.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FetchUsersUseCase @Inject constructor(private val repository: UserRepository) {
+class FetchUsersUseCase @Inject constructor(private val repository: UserRepositoryImpl) {
 
     operator fun invoke(numberOfRecords: Int): Flow<ResultState<List<User>>> = flow {
         emit(ResultState.Loading) // Emit loading state
