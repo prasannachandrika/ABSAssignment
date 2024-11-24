@@ -1,4 +1,4 @@
-package com.example.absassignment.data.remote
+package com.example.absassignment.data.remote.api
 
 import com.example.absassignment.data.model.UserResponse
 import retrofit2.Response

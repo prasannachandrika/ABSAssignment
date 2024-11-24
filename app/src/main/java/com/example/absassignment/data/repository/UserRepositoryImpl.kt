@@ -1,17 +1,18 @@
 package com.example.absassignment.repository
 
 import com.example.absassignment.data.models.User
-import com.example.absassignment.data.remote.ApiService
+import com.example.absassignment.data.remote.source.RemoteDataSource
 import com.example.absassignment.domainn.UserRepository
 import javax.inject.Inject
 
 // Data Layer - UserRepository Implementation
+
 class UserRepositoryImpl @Inject constructor(
-    private val apiService: ApiService
+    private val remoteDataSource: RemoteDataSource
 ) : UserRepository {
     override suspend fun getUsers(number: Int): List<User>? {
         return try {
-            val response = apiService.getRandomUsers(number)
+            val response = remoteDataSource.fetchRandomUsers(number)
             if (response.isSuccessful) {
                 response.body()?.results
             } else {
@@ -22,3 +23,4 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 }
+

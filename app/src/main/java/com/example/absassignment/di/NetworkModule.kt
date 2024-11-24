@@ -1,7 +1,7 @@
 package com.example.absassignment.di
 
 
-import com.example.absassignment.data.remote.ApiService
+import com.example.absassignment.data.remote.api.ApiService
 import com.example.absassignment.utils.NetworkConstants
 import dagger.Module
 import dagger.Provides

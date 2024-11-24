@@ -19,12 +19,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.*
-
 class FetchUsersUseCaseTest {
-
     private lateinit var fetchUsersUseCase: FetchUsersUseCase
     private lateinit var userRepositoryImpl: UserRepositoryImpl
-
     // Sample user response
     private val mockUsers = listOf(
         User(

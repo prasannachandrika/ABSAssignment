@@ -23,18 +23,12 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
-
-
 @ExperimentalCoroutinesApi
 class UserViewModelTest {
-
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var viewModel: UserViewModel
     private val fetchUsersUseCase: FetchUsersUseCase = mockk()
-
     private val dispatcher = StandardTestDispatcher()
     private val testScope = TestCoroutineScope(dispatcher)
     private val mockUsers = listOf(
