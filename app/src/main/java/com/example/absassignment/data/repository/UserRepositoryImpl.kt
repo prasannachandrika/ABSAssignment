@@ -11,18 +11,18 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
 
     override suspend fun getUsers(number: Int): List<User>? {
-       // Log.d("repository response1", "Fetching users:")
+
         return try {
             val response = apiService.getRandomUsers(number)
-            //Log.d("repository response", "Fetched users: ${response.body()}")
+
             if (response.isSuccessful) {
                 response.body()?.results
             } else {
-               // Log.e("UserRepository", "Response not successful: ${response.errorBody()?.string()}")
+
                 null
             }
         } catch (e: Exception) {
-            //Log.e("UserRepository", "Error fetching users", e)
+
             null
         }
     }
