@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FetchUsersUseCase @Inject constructor(private val repository: UserRepositoryImpl) {
+class FetchUsersUseCase @Inject constructor(private val repository: UserRepository) {
 
     operator fun invoke(numberOfRecords: Int): Flow<ResultState<List<User>>> = flow {
         emit(ResultState.Loading) // Emit loading state
