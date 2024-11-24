@@ -9,20 +9,15 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : UserRepository {
-
     override suspend fun getUsers(number: Int): List<User>? {
-
         return try {
             val response = apiService.getRandomUsers(number)
-
             if (response.isSuccessful) {
                 response.body()?.results
             } else {
-
                 null
             }
         } catch (e: Exception) {
-
             null
         }
     }
