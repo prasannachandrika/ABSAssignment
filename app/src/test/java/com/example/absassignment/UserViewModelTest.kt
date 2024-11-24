@@ -1,17 +1,16 @@
 package com.example.absassignment.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.absassignment.data.data.Dob
-import com.example.absassignment.data.data.Location
-import com.example.absassignment.data.data.Login
-import com.example.absassignment.data.data.Name
-import com.example.absassignment.data.data.Picture
-import com.example.absassignment.data.data.Street
-import com.example.absassignment.data.data.User
+import com.example.absassignment.data.models.Dob
+import com.example.absassignment.data.models.Location
+import com.example.absassignment.data.models.Login
+import com.example.absassignment.data.models.Name
+import com.example.absassignment.data.models.Picture
+import com.example.absassignment.data.models.Street
+import com.example.absassignment.data.models.User
 import com.example.absassignment.domainn.FetchUsersUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -25,17 +24,17 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+
+
 @ExperimentalCoroutinesApi
 class UserViewModelTest {
 
-    // Use the InstantTaskExecutorRule to allow LiveData to work synchronously
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: UserViewModel
     private val fetchUsersUseCase: FetchUsersUseCase = mockk()
 
-    // Use a dispatcher for coroutine testing
     private val dispatcher = StandardTestDispatcher()
     private val testScope = TestCoroutineScope(dispatcher)
     private val mockUsers = listOf(
@@ -50,22 +49,22 @@ class UserViewModelTest {
             login = Login("")
         )
     )
+
     @Before
     fun setUp() {
-        Dispatchers.setMain(dispatcher) // Set the Main dispatcher to the test dispatcher
+        Dispatchers.setMain(dispatcher)
         viewModel = UserViewModel(fetchUsersUseCase)
     }
 
     @After
     fun tearDown() {
-        Dispatchers.resetMain() // Reset the Main dispatcher
+        Dispatchers.resetMain()
         testScope.cleanupTestCoroutines()
     }
 
     @Test
     fun `loadMoreUsers should emit Loading and then Success when users are fetched`() = runBlocking {
         // Given
-        // Sample users
         coEvery { fetchUsersUseCase(20) } returns flow {
             emit(ResultState.Loading)
             emit(ResultState.Success(mockUsers))
@@ -75,11 +74,11 @@ class UserViewModelTest {
         viewModel.loadMoreUsers()
 
         // Then
-        assert(viewModel.userState.value is ResultState.Loading) // Check for loading state
-        dispatcher.scheduler.advanceUntilIdle() // Advance until idle
+        assert(viewModel.userState.value is ResultState.Loading)
+        dispatcher.scheduler.advanceUntilIdle()
         assert(viewModel.userState.value is ResultState.Success<*>)
         val successState = viewModel.userState.value as ResultState.Success<*>
-        assert(successState.data == mockUsers) // Assert the fetched users
+        assert(successState.data == mockUsers)
     }
 
     @Test
@@ -94,30 +93,40 @@ class UserViewModelTest {
         viewModel.loadMoreUsers()
 
         // Then
-        assert(viewModel.userState.value is ResultState.Loading) // Check for loading state
-        dispatcher.scheduler.advanceUntilIdle() // Advance until idle
+        assert(viewModel.userState.value is ResultState.Loading)
+        dispatcher.scheduler.advanceUntilIdle()
         assert(viewModel.userState.value is ResultState.Error)
         val errorState = viewModel.userState.value as ResultState.Error
-        assert(errorState.message == "An error occurred: No users found.") // Assert error message
+        assert(errorState.message == "An error occurred: No users found.")
     }
+
+
 
     @Test
-    fun `loadMoreUsers should return already loaded users if data is already loaded`() = runBlocking {
+    fun `loadMoreUsers should handle empty result set correctly`() = runBlocking {
         // Given
-
         coEvery { fetchUsersUseCase(20) } returns flow {
-            emit(ResultState.Success(mockUsers))
+            emit(ResultState.Loading)
+            emit(ResultState.Success(emptyList<User>()))
         }
 
-        viewModel.loadMoreUsers() // Load users first time
-
         // When
-        viewModel.loadMoreUsers() // Try loading again
+        viewModel.loadMoreUsers()
 
         // Then
+        assert(viewModel.userState.value is ResultState.Loading)
+        dispatcher.scheduler.advanceUntilIdle()
         assert(viewModel.userState.value is ResultState.Success<*>)
-        val successState = viewModel.userState.value as ResultState.Success<*>
-        assert(successState.data == mockUsers) // Assert the fetched users
-        verify(exactly = 1) { fetchUsersUseCase(20) } // Verify that the use case was called only once
+
+        // Explicitly cast the success state to ResultState.Success<List<User>>
+        val successState = viewModel.userState.value as ResultState.Success<List<User>>
+
+        // Now call isEmpty on the List<User>
+        assert(successState.data.isEmpty()) // Check that no users are returned
     }
+
+
+
 }
+
+

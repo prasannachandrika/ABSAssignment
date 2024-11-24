@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.absassignment.R
-import com.example.absassignment.data.data.User
+import com.example.absassignment.data.models.User
 import com.example.absassignment.viewmodel.ResultState
 import com.example.absassignment.viewmodel.UserViewModel
 import com.google.gson.Gson

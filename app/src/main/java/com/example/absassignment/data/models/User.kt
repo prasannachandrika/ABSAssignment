@@ -1,4 +1,4 @@
-package com.example.absassignment.data.data
+package com.example.absassignment.data.models
 
 data class User(
     val gender: String,

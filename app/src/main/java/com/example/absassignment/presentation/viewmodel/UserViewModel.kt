@@ -2,7 +2,7 @@ package com.example.absassignment.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.absassignment.data.data.User
+import com.example.absassignment.data.models.User
 import com.example.absassignment.domainn.FetchUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

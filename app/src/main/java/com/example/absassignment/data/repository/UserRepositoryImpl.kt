@@ -1,6 +1,6 @@
 package com.example.absassignment.repository
 
-import com.example.absassignment.data.data.User
+import com.example.absassignment.data.models.User
 import com.example.absassignment.data.remote.ApiService
 import com.example.absassignment.domainn.UserRepository
 import javax.inject.Inject
